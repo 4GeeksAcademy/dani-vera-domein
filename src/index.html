@@ -1,35 +1,111 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="./assets/img/4geeks.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello Rigo with Vanilla.js</title>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Nombres de Dominio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    .domain-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .domain {
+      padding: 8px;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .stats {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #e9ecef;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Generador de Nombres de Dominio</h1>
+  
+  <button onclick="generateAndDisplay()">Generar Dominios</button>
+  
+  <div class="stats">
+    <p>Total de dominios generados: <span id="count">0</span></p>
+  </div>
+  
+  <div id="domainList" class="domain-list"></div>
 
-    <!-- Fontawesome is our recomended library for icons -->
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
-      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <!-- Write your HTML code here, you can delete everything withing the body tags -->
-    <div class="container-fluid text-center">
-      <h1 class="mt-5">Hello Rigo!</h1>
-      <img src="./assets/img/rigo-baby.jpg" />
-      <p class="alert alert-warning mt-4">
-        If this text is <b>not</b> centered and <b>yellow</b>, you probably have
-        an error
-      </p>
-      <div class="fixed-bottom p-4">
-        Made with ❤️ by
-        <a href="https://www.4geeksacademy.com">4Geeks Academy</a>
-      </div>
-    </div>
+  <script>
+    function generateDomainNames() {
+      // Listas de palabras para combinar
+      let pronouns = ['the', 'our', 'my', 'your'];
+      let adjs = ['great', 'big', 'happy', 'smart', 'cool'];
+      let nouns = ['jogger', 'racoon', 'developer', 'panda', 'hacker'];
+      let tlds = ['.com', '.net', '.io', '.dev', '.tech'];
 
-    <!-- Do not delete this script tag, this is what connects your HTML with the Javascript code -->
-    <script type="module" src="/app.js"></script>
-  </body>
+      // Array para almacenar los resultados
+      let domainNames = [];
+
+      // Generar todas las combinaciones posibles
+      for (let pronoun of pronouns) {
+        for (let adj of adjs) {
+          for (let noun of nouns) {
+            for (let tld of tlds) {
+              // Crear el nombre de dominio y añadirlo al array
+              let domain = pronoun + adj + noun + tld;
+              domainNames.push(domain);
+            }
+          }
+        }
+      }
+
+      return domainNames;
+    }
+
+    function generateAndDisplay() {
+      const domains = generateDomainNames();
+      const domainListElement = document.getElementById('domainList');
+      const countElement = document.getElementById('count');
+      
+      // Mostrar el contador
+      countElement.textContent = domains.length;
+      
+      // Limpiar lista anterior
+      domainListElement.innerHTML = '';
+      
+      // Mostrar cada dominio
+      domains.forEach(domain => {
+        const domainElement = document.createElement('div');
+        domainElement.className = 'domain';
+        domainElement.textContent = domain;
+        domainListElement.appendChild(domainElement);
+      });
+    }
+
+    // Generar automáticamente al cargar la página
+    window.onload = generateAndDisplay;
+  </script>
+</body>
 </html>
